@@ -90,7 +90,7 @@ class LearningSession < Roda
   route do |r|
     r.public
     r.assets
-    check_csrf!
+    # check_csrf!
     r.hash_routes('')
   end
 end
