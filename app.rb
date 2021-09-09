@@ -1,9 +1,12 @@
 require_relative 'models'
+require_relative 'concepts'
 
 require 'roda'
 require 'tilt/sass'
 
 class LearningSession < Roda
+  include Dry::Monads[:result]
+
   opts[:check_dynamic_arity] = false
   opts[:check_arity] = :warn
 
@@ -78,6 +81,7 @@ class LearningSession < Roda
     #cookie_options: {secure: ENV['RACK_ENV'] != 'test'}, # Uncomment if only allowing https:// access
     secret: ENV.send((ENV['RACK_ENV'] == 'development' ? :[] : :delete), 'APP_SESSION_SECRET')
 
+  Unreloader.require('concepts'){}
   Unreloader.require('routes'){}
 
   hash_routes do
