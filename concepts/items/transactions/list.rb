@@ -5,13 +5,17 @@ module Items
     class List
       include App::Transaction
 
+      def initialize(deps = {})
+        @items = DB[:items]
+      end
+
       def call
-        {
-          items: [
-            {id: 1, content: 'buy grocery'},
-            {id: 2, content: 'eat rice'}
-          ]
+        items = {
+          items:
+            @items.all
         }
+
+        Success(items)
       end
     end
   end
