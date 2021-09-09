@@ -7,10 +7,12 @@ module Items
 
       def initialize(deps = {})
         @items = DB[:items]
+        @apply_contract = deps[:apply_contract] || App::ApplyContract.new(Items::Contracts::Insert.new)
       end
 
       def call(params)
-
+        clean_params = yield @apply_contract.call(params)
+        @items.insert(params)
         Success(:ok)
       end
     end
