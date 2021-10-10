@@ -8,6 +8,9 @@ gem 'refrigerator'
 # Our routing toolkit
 gem 'roda'
 
+# Handle CORS? Of course!
+gem 'rack-cors'
+
 # For ze database
 gem 'sequel'
 gem 'sequel_pg'
