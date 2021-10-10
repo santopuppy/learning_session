@@ -5,11 +5,6 @@ class LearningSession
     list_items = Items::Transactions::List.new
     insert_items = Items::Transactions::Insert.new
 
-    # Handle pre-flight OPTIONS request
-    r.options do
-      byebug
-    end
-
     r.get do
       result = list_items.call
 

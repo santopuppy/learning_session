@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 dev = ENV['RACK_ENV'] == 'development'
 
 if dev
@@ -7,15 +9,20 @@ if dev
 end
 
 require 'rack/unreloader'
-Unreloader = Rack::Unreloader.new(subclasses: %w'Roda Sequel::Model Dry::Struct Dry::Validation::Contract', logger: logger, reload: dev){LearningSession}
+Unreloader = Rack::Unreloader.new(subclasses: %w'Roda Sequel::Model Dry::Struct Dry::Validation::Contract', logger: logger, reload: dev){ LearningSession }
 require_relative 'models'
 Unreloader.require('app.rb'){'LearningSession'}
 
 # CORS Middleware
 require 'rack/cors'
-use Rack::Cors do
+use Rack::Cors, debug: dev do
   allow do
-    origins *ENV['ALLOWED_ORIGINS'].split(',').map{ |o| o.strip }
+    origins *ENV['ALLOWED_ORIGINS'].split(',').map { |o| o.strip.freeze }.freeze
+
+    resource '/items/*',
+      headers: :any,
+      methods: %i[get post],
+      max_age: 0
   end
 end
 

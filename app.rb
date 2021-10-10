@@ -38,7 +38,6 @@ class LearningSession < Roda
   plugin :json
   plugin :json_parser
   plugin :symbol_status
-  plugin :all_verbs
 
   logger = if ENV['RACK_ENV'] == 'test'
     Class.new{def write(_) end}.new
